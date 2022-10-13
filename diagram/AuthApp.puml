@@ -1,0 +1,58 @@
+@startuml
+actor user
+participant Nami
+participant OtherWeb
+participant AuthApp
+participant AuthServer
+
+OtherWeb -> AuthApp: login (link to Dapp/?app-key=<app-key>) app-key=dapp
+AuthApp -> AuthServer: fetch app info get(/api/app?app-key=<app-key>)
+AuthServer -> AuthApp: app info
+note right of AuthApp
+data: {
+    name: 'Dapp',
+    url: 'http://localhost:4000/',
+    return_url: 'http://localhost:4000/',
+    logo: 'http://localhost:4000/logo.png'
+}
+endnote
+AuthApp -> Nami: conect to Nami
+note left of AuthApp
+await window?.cardano?.nami?.enable()
+endnote
+AuthApp -> AuthServer: fetch random number get(/api/auth/getRandomNumber)
+AuthServer -> AuthApp: random number and set access_cookie on header
+note right of AuthApp
+data: {
+    access_token: accessToken,
+}
+decode access_token
+>>>
+{
+    randomNumber: ...
+    timestamp: ...
+}
+endnote
+AuthApp -> Nami: request Nami signature
+note left of AuthApp
+window.cardano
+    .signData(selectedAddress, Buffer.from(JSON.stringify(data), 'utf8').toString('hex'))
+    .then((signedData) => {})
+    .catch((err) => {});
+endnote
+Nami -> AuthApp: Nami signature
+AuthApp -> AuthServer: login post(/api/auth/login)
+note right of AuthApp
+{ data, signedData, address: selectedAddress }
+endnote
+AuthServer -> AuthApp: login response set access_cookie on header
+note right of AuthApp
+data: {
+    access_token: accessToken,
+}
+endnote
+AuthApp -> OtherWeb:  redirect( return_url )
+note right of OtherWeb
+window.location.replace(dappInfo.return_url + '?access_token=' + data?.data?.access_token);
+endnote
+@enduml

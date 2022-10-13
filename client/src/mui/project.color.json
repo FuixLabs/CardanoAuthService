@@ -1,0 +1,22 @@
+{
+  "type": "light",
+  "primary": {
+    "main": "#E69F3E"
+  },
+  "text": {
+    "primary": "#283646",
+    "secondary": "#E69F3E",
+    "error": "#327e96"
+  },
+  "background": {
+    "default": {
+      "primary": "#F2F4F5"
+    },
+    "hover": {
+      "primary": "#E6A70D27"
+    }
+  },
+  "boxShadow": {
+    "primary": "rgba(0, 0, 0, 0.24)"
+  }
+}

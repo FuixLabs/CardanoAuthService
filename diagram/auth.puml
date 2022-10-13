@@ -1,0 +1,49 @@
+
+@startuml
+actor user
+participant wallet
+participant dapp
+participant AuthApp
+participant OtherServers
+participant AuthServer
+
+user -> dapp : login
+dapp -> AuthApp : redirect to AuthApp with app-key
+activate AuthApp
+AuthApp -> AuthServer : get random number and timestamp
+activate AuthServer
+AuthServer -> AuthServer : generate random number
+AuthServer -> AuthServer : generate JWT with random number and timestamp
+AuthServer -> AuthApp : respone JWT with random number and timestamp
+deactivate AuthServer
+AuthApp -> wallet : request the signature of the random number and timestamp
+activate wallet
+wallet -> wallet: sign the random number and timestamp
+wallet -> AuthApp : send the signature of the random number and timestamp
+deactivate wallet
+AuthApp -> AuthServer : send the signature of the random number and timestamp to get accecss token
+activate AuthServer
+AuthServer -> AuthServer : verify the signature of the random number and timestamp
+AuthServer -> AuthServer : generate JWT with wallet address and timestamp
+AuthServer -> AuthApp : respone the access token
+deactivate AuthServer
+AuthApp -> dapp : return the access token via return url of dapp (depend on app-key)
+deactivate AuthApp
+activate dapp
+dapp -> user : authenticated user
+dapp -> OtherServers : call api with access token
+activate OtherServers
+OtherServers -> AuthServer : check access token
+activate AuthServer
+AuthServer -> AuthServer : verify access token
+AuthServer -> OtherServers : return result
+deactivate AuthServer
+OtherServers -> OtherServers : do something
+OtherServers -> dapp : respone
+deactivate OtherServers
+deactivate dapp
+
+
+@enduml
+
+

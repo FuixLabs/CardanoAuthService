@@ -1,0 +1,11 @@
+node_modules
+
+routers/middlewares/auth/PRIVATE_KEY
+routers/middlewares/auth/PUBLIC_KEY
+
+**.log
+
+**.env
+
+cardano-cli-js-dir/*
+private/*

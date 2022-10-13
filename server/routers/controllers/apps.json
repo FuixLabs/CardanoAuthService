@@ -1,0 +1,16 @@
+[
+    {
+        "appKey": "dapp_tradetrust",
+        "name": "TradeTrust",
+        "url": "https://tradetrust-fuixlabs.ap.ngrok.io",
+        "return_url": "http://localhost:4000",
+        "logo": "https://tradetrust-fuixlabs.ap.ngrok.io/static/media/tradetrust-logo.1edf1d01dfcc38d6b01d5010fc209889.svg"
+    },
+    {
+        "appKey": "dapp_dominium",
+        "name": "DOMINIUM",
+        "url": "https://paperless-fuixlabs.ap.ngrok.io",
+        "return_url": "http://localhost:4000",
+        "logo": "https://paperless-fuixlabs.ap.ngrok.io/static/media/main-logo.bc513f133d8b8e7bd863ca4cde40fe7a.svg"
+    }
+]
